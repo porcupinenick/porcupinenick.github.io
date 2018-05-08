@@ -1,0 +1,320 @@
+---
+title: "Final"
+output: html_document
+---
+
+# Introduction and Set Up Instructions
+```{r introduction_setup_description}
+# Welcome! My name is Nicholas Chen and I am here to show you some data analysis operations which can be programmed using the R programming language. Please download the RStudio editor for your specific operating system.
+
+# Below are some packages we need to import in order to properly use functions for this exercise. In the terminal part of the R Studio Editor, please type in the following command:
+
+#install.packages("package_name")
+
+# Install all of the libraries before proceeding with the rest of the tutorial.
+```
+
+```{r setup, include=FALSE}
+library(rvest)
+library(ggplot2)
+library(dplyr) 
+library(RSQLite)
+library(readr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(tidyverse)
+library(lettercase)
+library(ROCR)
+library(gapminder)
+library(broom)
+library(tree)
+library(ISLR)
+library(MASS)
+library(cvTools)
+library(caret)
+library(caTools)
+library(randomForest)
+```
+
+# Data Curation and Parsing
+```{r curation_and_parsing_description}
+# After installing the packages and libraries above, we are now ready to work with data and begin writing R code.
+
+# From now on, all R code must be enclosed in the general format:
+
+#```{r description_name}
+#```
+
+# description_name must be unique for each code fragment throughout the RMarkdown (.Rmd) file.
+
+# The first decision we need to make is to determine the dataset which we are going to use for the analysis. Kaggle is a great webiste for collecting data about a lot of different entities and subjects:
+
+#https://www.kaggle.com/kernels?sortBy=votes&group=everyone&pageSize=20&language=R
+
+# For this exercise, I have elected to use data about flowers and some of their specific properties:
+
+"https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/d546eaee765268bf2f487608c537c05e22e4b221/iris.csv"
+
+# After selecting the dataset I want to work with, I will need to load the dataset into R so that I can work with it in R. The following code below assigns the dataset to a variable (URL) and calls the function read_csv to parse the data into a table (flower).
+
+# To display the flowers table, all I need to do is just call flowers after the table is loaded (line 73). If I wanted only the first 10 results of flowers, I would use the slice function (lines 74 - 75).
+
+# I decided to select this flower dataset because I am fascinated by the amount of plantlife and how they contribute to the world around them. Plantlife is everywhere and have many amazing qualities. For further reading, check this out:
+
+# https://www.proflowers.com/blog/types-of-flowers
+
+# Congratulations! You have now leanred how to select datasets, load datasets into R, display datasets, and how to curate the datasets to a certain number of observations.
+```
+
+```{r curation_and_parsing}
+url <- "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/d546eaee765268bf2f487608c537c05e22e4b221/iris.csv"
+flowers <- read_csv(url)
+flowers
+flowers %>% 
+  slice(1:10)
+```
+
+# Pipeline
+```{r pipeline_description}
+# Welcome back! In the previous sectoin, we discussed how to load and display datasets, as well as how to display a specific number of oservations of the dataset. In tis section, we will discuss how to curate and process some basic information about the dataset.
+
+# Pipeling (pipeline as more commonly seen) is a useful process in R which allows us to manipulate a table in specific ways. In the code below, I outline the basic use of pipelining the flowers table from the previous section above.
+
+# Immediately, two properties about the code stand out. The first property is the use of %>%. This symbole, %>%, is necessary when pipelining code, as it helps RStudio to determine how the table is being manipulated and allows the user to continue to manipulate the data using successive functions.
+
+# The second property which stands out is the indentation of the code. Indentation and readability is key when publishing code and debugging errors. I recommend indenting chunks when pipelining because doing so makes the code easier to read.
+
+# This piece of code is manipulating the flowers table from the previous section and assigning the manipulated table to a new table, lengths (line 90). I will breakdown some key pipeline functions which I have used in my pipelining code:
+
+# line 107: filter; keeps only observations with sepal_length > 1.2
+
+# line 108: dplyr::select; displays 2 columns which the user is interested in displaying (species, sepal_length)
+
+# line 109: group_by; collects observations together based on a defined data specification(species), similar to group_by in SQL
+
+# line 110: summarize; defines what the new columns (mean_length) should be calculated with (mean(sepal_length))
+
+# line 110: mean; calculates the average values of multiple observations
+
+# line 111: arrange; presents data in increasing order
+
+# After running the code, notice now that we get a simple table, lengths. There are two columns (species, mean_length)
+```
+
+```{r pipeline}
+lengths <- flowers %>%
+  filter(sepal_length > 1.2) %>%
+  dplyr::select(species, sepal_length) %>%
+  group_by(species) %>%
+  summarize(mean_length = mean(sepal_length)) %>%
+  arrange(mean_length)
+lengths
+```
+
+# Plotting
+```{r plotting_description}
+# Plots are a great way to display data about datasets. The following section displays the code necessary to create plots based on our dataset. 
+
+# Each plot displays the data in different ways to display certain characteristics about the data. The three plots which I have sampled is the barplot, dot plot and violin plot. For more information about how each plot should be used, please consult this guide:
+
+# https://nces.ed.gov/nceskids/help/user_guide/graph/whentouse.asp
+
+# Congratulations! You now have the knowledge necessary to make plots to display data for others to view. Plots are very useful when attempting to describe datasets and to visually show trends about the dataset. In the next section, we will discuss about how to analyze datasets to look for trends.
+```
+
+```{r plotting}
+lengths %>%
+  ggplot(aes(x=species, y=mean_length)) +
+    geom_bar(stat="identity", main = "Statistics") +
+    coord_flip() +
+    ggtitle("Mean Length of Sepal Leaves in Plant Species")
+
+flowers %>%
+  ggplot(aes(x = species, y = sepal_length)) +
+    geom_point() +
+    geom_smooth() +
+    xlab("Species") +
+    ylab("Sepal Lengths") +
+    ggtitle("Species and Sepal Lengths")
+
+flowers %>%
+  ggplot(aes(x = species, y = sepal_width)) +
+    geom_violin() +
+    labs(title="Species and Sepal Widths",
+         x = "Species",
+         y = "Sepal Widths")
+```
+
+# Regression
+```{r regression_description}
+# Regression is a useful statistical analysis procedure which we can use to spot trends and describe data. For example, given a plot of (x, y) values, I can use R's regression package to see how these values are related and if they can be described using a linear model. For further reading about statistical regression, please reference this page:
+
+# https://en.wikipedia.org/wiki/Regression_analysis
+
+# Below is a small code segment which I have written to demonstrate how to write regression code in R. In this example, I have decided to see if there is a linear relationship between a flower's sepal length and a flower's sepal width. The lm function is necessary to accomplish this task.
+
+# In line 162, I rearrange the data into a more readable and concise format, known as tidying (tidy). In the output of the linear regression result, there are some measurements which are helpful for me to determine if there is a relationship between the two variables.
+
+# The estimate tells us where on the standard x-y coordinate plane the linear models intersect. In this case, the terms intersect at -0.2088703. The standard error is calculated to give us an idea of how well the regression fits and how correlated sepal width and sepal length are. As stated by the decimals, there is a weak correlation between sepal width and sepal legnth (0.1560406), leading me to conclude that these variables do not impact each other in a significant way. Lastly, the statistic and p-value measurements are most relevant to us through a statistical process knowing as normalization. This concept will be visited in a later section of this tutorial.
+
+# Another regression model which I would like to discuss about are residuals within a dataset. Residuals are a measure of how much each data value deviates from the mean of the dataset. The results show that there is very little deviation between a flower's sepal width and the average sepal length. We can make a violin plot to display the results of sepal length and residuals for each flower in the dataset. Regression and residuals are frequently used to describe statistics and information about the dataset.
+
+# Well done! You are now familiar with regression and residuals. You have explored their significance and what information they convey when determining trends in a dataset. In the next section, we will talk about significance level testing and how it can help us to determine the probability of observing a certain statistic in our dataset.
+```
+
+```{r regression}
+reg_model <- lm(flowers$sepal_length~flowers$sepal_width, data=flowers)
+reg_model2 <- tidy(reg_model)
+reg_model2
+
+Residuals <- lm(flowers$sepal_length ~ flowers$sepal_width)
+answer <- as.data.frame(resid(Residuals))
+answer
+
+answer %>%
+  ggplot(aes(x=factor(flowers$sepal_length), y=resid(Residuals))) +
+  geom_violin() + 
+  labs(title="Sepal Length vs Residuals",
+          x = "Sepal Length",
+          y = "Residual")
+```
+
+# Significance Level Testing
+```{r significance_level_description}
+# Hooray! You have made significant progress in learning R and how to analyze data. At this point, you should feel comfortable talking about regression and residuals and discussing why those concepts and measurements are important for statistical analysis. You should also feel comfortable with making plots and how to load and display datasets in R. In this section, we will explore significance testing and how it applies to data analysis.
+
+# A key concept in statistics is probability and determining the likelihood of observing a certain observation within a dataset. Given a dataset, we can normalize the data to assume that the data follows a normal distribution:
+
+# https://en.wikipedia.org/wiki/Normal_distribution
+
+# Let's say I want to operate only on sepal lengths of this data set. The normal dsitrubtion follows a general formula:
+
+# (observation - mean) / standard_deviation
+
+# Let's go ahead an calculate the mean and standard deviation of the sepal lengths. Lines 199 - 203 demonstrate how to calculate the mean and standard deviation of the sepal lengths for the dataset. After calculating the mean and standard deviation, we are now able to find the probabilities of a certain observation occurring in the dataset.
+
+# Let's suppose I would like to find the probability of find a sepal length which is less than or equal to 4.8. In line 207 - 208, notice the introduction of a new function, pnorm. This function, given the proper parameters, gives me the probabilitiy of finding a sepal length which is less than or equal to 4.8 in the dataset. In this example, pnorm should have the following parameters:
+
+# pnorm(observation, mean_sepal_length, standard_deviation)
+
+# After running the code, I am given that the probability of observing a sepal legnth of 4.8 or less is 0.1038412, which is quite small.
+
+# If I wanted to calculate the probability of observing a sepal length greater than 4.8, I would simply apply the formula in line 216. 
+```
+
+```{r significance_level}
+mean_sepal_length = mean(flowers$sepal_length)
+mean_sepal_length
+
+standard_deviation = sd(flowers$sepal_length)
+standard_deviation
+
+probability = pnorm(4.8, mean_sepal_length, standard_deviation)
+probability
+
+greater = 1 - pnorm(4.8, mean_sepal_length, standard_deviation)
+greater
+```
+
+# Prediction and Cross-Validation
+```{r prediction_description}
+# In this last section, we are going to delve deeper into make predictions and working with a dataset to spot even more interesting trends. By now, you have gained a solid understanding of R and how to make statistically significant models. After this section, you will be able to understand more complex functions in R and how to curate datasets appropriately.
+
+# In this next section, we will discuss about two distinct concepts, prediction and cross-validation. I will begin by first asking you to download this new dataset from Kaggle and put it into your project folder: 
+
+# https://www.kaggle.com/camnugent/sandp500/data
+
+# This dataset describes historical stock data about every company in the S&P 500 index from 2013 - 2018. One of the fundamental uses of statistics is to make predictions about trends in datasets. On line 246, I am able to make predictions about how a stock's closing price will perform (rise or fall) by comparing the closing price to the average price of all of the closing prices within the exchange. As you can see in the historical_df table, I have made a new column known as Direction, which predicts the performnace of the stock's closing price.
+```
+
+```{r prediction}
+csv_file <- read_csv("all_stocks_5yr.csv")
+csv_file
+
+csv_file %>%
+  ggplot(aes(x=date,y=volume,group=factor(Name))) +
+  geom_line(color="GRAY", alpha=3/4, size=1/2) +
+  labs(title="Stock Volume Over Time",
+          x="Date", y="Volume")
+
+historical_df <- csv_file %>%
+  dplyr::select(date, open, high, low, close, volume, Name) %>%
+  mutate(average = mean(csv_file$close)) %>%
+  mutate(Direction = ifelse(csv_file$close > average, "up", "down")) %>%
+  dplyr::select(date, volume, close, Direction, Name)
+historical_df
+
+historical_df
+```
+
+# Continuation Code
+
+```{r continuation_description}
+# The next part of the code describes to readers how to perform cross-validation of our methods. Cross-validation is the process by which we generate the error associated with our data and how well our model fit and variables relate to each other in the dataset. I would like you, as an exercise, to complete the missing code chunks below so that you can obtain the error rate of the model which we chosen to use. For hints or advice, please contact the author, Nicholas Chen, at this address: nizx123@icloud.com
+```
+
+```{r continuation}
+standardized_df <- historical_df %>%
+  group_by(Name) %>%
+  mutate(mean_aff = mean(close)) %>%
+  mutate(sd_aff = sd(close)) %>%
+  mutate(z_aff = (close - mean_aff) / sd_aff) %>%
+  ungroup()
+
+wide_df <- standardized_df %>%
+  dplyr::select(Name, date, close) %>%
+  tidyr::spread(date, close)
+
+matrix_1 <- wide_df %>%
+  dplyr::select(-Name) %>%
+  as.matrix() %>%
+  .[,-1]
+
+matrix_2 <- wide_df %>%
+  dplyr::select(-Name) %>%
+  as.matrix() %>%
+  .[,-ncol(.)]
+
+diff_df <- (matrix_1 - matrix_2) %>%
+  magrittr::set_colnames(NULL) %>%
+  as_data_frame() %>%
+  mutate(Name = wide_df$Name)
+
+final_df <- diff_df %>%
+  inner_join(historical_df %>% dplyr::select(Name, Direction), by="Name") %>%
+  mutate(Direction=factor(Direction, levels=c("down", "up")))
+final_df
+
+set.seed(1234)
+test_random_forest_df <- final_df %>%
+  group_by(Direction) %>%
+  sample_frac(.2) %>%
+  ungroup()
+
+train_random_forest_df <- final_df %>%
+  anti_join(test_random_forest_df, by="Name")
+
+## INSERT YOUR CODE HERE AS AN EXERCISE
+```
+
+# One Final Bit of Regression
+```{r final_regression}
+historical_df %>%
+  filter(year(date) %in% 2013:2018) %>%
+  ggplot(aes(x=close,y=volume,group=factor(date))) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  theme_minimal()
+
+auto_fit <- lm(date~close, data = historical_df)
+auto_fit
+```
+
+# Conclusion
+```{r conclusion}
+# Congratulations! You have made a significant step in advancing your career as a data scientist by reading through this tutorial. You have learned many concepts about statistics and R programming, including reading datasets, curating data, calculating probabilities of observing certain measurements in a dataset and even predicting the performance of stocks based on historical data measurements. I hope that you will continue to further your data science education by taking Hector Corrada Bravo's CMSC320 Introduction to Data Science course at the University of Maryland. Thank you for your time and have a great day.
+
+# Kind Regards,
+# Nicholas Chen
+```
