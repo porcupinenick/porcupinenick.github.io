@@ -41,7 +41,7 @@ social-network-links:
   email: "nick.s.chen@icloud.com"
   github: nickycutesc
   twitter: nickycutesc
-#  rss: true
+  rss: false
 #  reddit: yourname
 #  linkedin: daattali
 #  xing: yourname
