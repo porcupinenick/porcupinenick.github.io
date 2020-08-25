@@ -8,7 +8,7 @@ share-img: /assets/img/clamav.jpg
 tags: [books, test]
 ---
 
-Hey there, this is my first post! Recently, a friend of my introduced me to ClamAV, an open-source anti-virus scanner for macOS, Windows and Linux. I've been using it for about 3 weeks now and...it's great! Here's a short snippet of how to run it:
+Hey there, this is my first post! Recently, a friend of my introduced me to [ClamAV](https://www.clamav.net), an open-source anti-virus scanner for macOS, Windows and Linux. I've been using it for about 3 weeks now and...it's great! Here's a short snippet of how to run it:
 
 The truth is that no one else can definitively know the path we are here to walk. It’s tempting to listen—many of us long for the omnipotent other—but unless they are genuine psychic intuitives, they can’t know. All others can know is their own truth, and if they’ve actually done the work to excavate it, they will have the good sense to know that they cannot genuinely know anyone else’s. Only soul knows the path it is here to walk. Since you are the only one living in your temple, only you can know its scriptures and interpretive structure.
 
