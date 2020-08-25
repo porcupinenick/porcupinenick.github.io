@@ -2,9 +2,9 @@
 layout: post
 title: ClamAV - Antivirus for Everyone
 subtitle: Catch those viruses...and keep them out!
-cover-img: /assets/img/path.jpg
-thumbnail-img: /assets/img/thumb.png
-share-img: /assets/img/path.jpg
+cover-img: /assets/img/clamav.jpg
+thumbnail-img: /assets/img/clamav.jpg
+share-img: /assets/img/clamav.jpg
 tags: [books, test]
 ---
 
