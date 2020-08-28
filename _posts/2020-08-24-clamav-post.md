@@ -17,8 +17,13 @@ Hey there, this is my first post! Recently, a friend of my introduced me to [Cla
 $ brew install clamav
 ```
 
+
 2. Make the conf file
 ```javascript
 $ mv /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
 ```
 
+3. Edit the conf file on line 8 (Example -> #Example) and save the changes
+```javascript
+#Example
+```
