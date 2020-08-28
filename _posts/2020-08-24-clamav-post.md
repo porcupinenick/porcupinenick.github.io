@@ -23,7 +23,14 @@ $ brew install clamav
 $ mv /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
 ```
 
+
 3. Edit the conf file on line 8 (Example -> #Example) and save the changes
 ```javascript
 #Example
+```
+
+
+4. Go back to the Terminal application and run 'freshclam'
+```javascript
+$ freshclam
 ```
