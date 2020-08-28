@@ -29,8 +29,8 @@ $ mv /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam
 #Example
 ```
 
-
-4. Go back to the Terminal application and run 'freshclam'
+## Running ClamAV (How do I use ClamAV after installing it):
+1. Run 'freshclam' in the Terminal application
 ```javascript
 $ freshclam
 ```
