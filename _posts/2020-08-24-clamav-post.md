@@ -34,3 +34,9 @@ $ mv /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam
 ```javascript
 $ freshclam
 ```
+
+
+2. Make a text (.txt) file and list the files on your computer which you want to scan. Below is a sample of my text file (scan.txt)
+```javascript
+/Users/nicholaschen/Desktop
+```
