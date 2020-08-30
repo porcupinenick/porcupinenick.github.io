@@ -40,3 +40,9 @@ $ freshclam
 ```javascript
 /Users/nicholaschen/Desktop
 ```
+
+
+3. Navigate back to the Terminal application, locate the path to your scan file from Step 2, and type the following command, replacing the text between the quotes ('')
+```javascript
+$ sudo clamscan --file-list='REPLACE ME WITH THE PATH TO YOUR SCAN FILE, e.g. /Users/nicholaschen/Desktop/scan.txt'
+```
