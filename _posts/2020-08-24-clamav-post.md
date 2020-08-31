@@ -10,6 +10,8 @@ tags: [books, test]
 
 Hey there, this is my first post! Recently, a friend of my introduced me to [ClamAV](https://www.clamav.net), an open-source anti-virus scanner for macOS, Windows and Linux. I've been using it for about 3 weeks now and...it's great! Here's a short snippet of how to install and/or run it:
 
+* Note: I may release instructions about how to run ClamAV on a Windows and/or Linux machine.
+
 
 ## Installing ClamAV (I have not used ClamAV before):
 1. Install ClamAV via Homebrew in the Terminal application. If you aren't sure if you have Homebrew or not, check out this post here.
