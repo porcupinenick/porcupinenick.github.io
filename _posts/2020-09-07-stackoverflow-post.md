@@ -8,4 +8,4 @@ share-img: /assets/img/clamav.jpg
 tags: [books, test]
 ---
 
-Happy Labor Day Weekend everyone! Thought I would mention my a StackOverflow post I made a while here. It received over 8000 views and I hope others find it useful.
+Happy Labor Day Weekend everyone! Thought I would mention my StackOverflow post I made a while [ago.](https://stackoverflow.com/questions/38945084/homebrew-mac-update-issues) It has received over 8000 views and I hope others find it useful.
