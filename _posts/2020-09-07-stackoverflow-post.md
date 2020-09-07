@@ -2,9 +2,9 @@
 layout: post
 title: StackOverflow Post
 subtitle: My most profilic StackOverflow post!
-cover-img: /assets/img/clamav.jpg
-thumbnail-img: /assets/img/clamav.jpg
-share-img: /assets/img/clamav.jpg
+cover-img: /assets/img/stackoverflow.jpg
+thumbnail-img: /assets/img/stackoverflow.jpg
+share-img: /assets/img/stackoverflow.jpg
 tags: [books, test]
 ---
 
